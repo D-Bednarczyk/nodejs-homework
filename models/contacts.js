@@ -1,10 +1,4 @@
-import fs from "fs";
-import path from "path";
 import Contact from "../service/schemas/contacts.js";
-
-//const contactsPath = path.join(__dirname, "contacts.json");
-process.cwd();
-const contactsPath = path.join(process.cwd(), "./contacts.json");
 
 const listContacts = async () => {
   try {
@@ -43,21 +37,30 @@ const addContact = async (body) => {
   }
 };
 
-const updateContact = async (contactId, body) => {
-  const contacts = JSON.parse(await fs.readFile(contactsPath));
-  const { name, email, phone } = body;
-  const isContactactIdInFile = contacts.findIndex((el) => el.id == contactId);
+const updateContact = async (id, toUpdate) => {
+  try {
+    return Contact.findOneAndUpdate(
+      { _id: id },
+      { $set: toUpdate },
+      { new: true }
+    );
+  } catch (err) {
+    console.log("Error: ", err);
+    throw err;
+  }
+};
 
-  if (isContactactIdInFile != -1) {
-    contacts[isContactactIdInFile] = {
-      id: contactId,
-      name: name,
-      email: email,
-      phone: phone,
-    };
-    await fs.writeFile(contactsPath, JSON.stringify(contacts));
-    return contacts[isContactactIdInFile];
-  } else return false;
+const updateStatusContact = async (id, toUpdate) => {
+  try {
+    return Contact.findOneAndUpdate(
+      { _id: id },
+      { $set: toUpdate },
+      { new: true }
+    );
+  } catch (err) {
+    console.log("Error: ", err);
+    throw err;
+  }
 };
 
 export {
@@ -66,4 +69,5 @@ export {
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 };

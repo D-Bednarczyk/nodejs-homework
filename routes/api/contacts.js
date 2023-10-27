@@ -7,6 +7,7 @@ import {
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 } from "./../../models/contacts.js";
 
 import Joi from "joi";
@@ -15,6 +16,10 @@ const schemaValidation = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   phone: Joi.string().required(),
+});
+
+const schemaValidationFavorities = Joi.object({
+  favorite: Joi.boolean().required(),
 });
 
 router.get("/", async (req, res, next) => {
@@ -83,25 +88,51 @@ router.delete("/:contactId", async (req, res, next) => {
 });
 
 router.put("/:contactId", async (req, res, next) => {
-  try {
-    const body = req.body;
-    const resultValidate = schemaValidation.validate(body);
+  const body = req.body;
+  const { contactId } = req.params;
+  const resultValidate = schemaValidation.validate(body);
 
-    if (resultValidate.error) {
-      return res.status(400).json({
-        message: resultValidate.error.message,
+  if (resultValidate.error) {
+    return res.status(400).json({
+      message: resultValidate.error.message,
+    });
+  }
+  try {
+    const updatedContact = await updateContact(contactId, body);
+    if (updatedContact) {
+      return res.status(201).json({
+        updatedContact: updatedContact,
       });
     } else {
-      const updatedContact = await updateContact(req.params.contactId, body);
-      if (updatedContact) {
-        return res.status(201).json({
-          updatedContact: updatedContact,
-        });
-      } else {
-        return res.status(404).json({
-          message: "Not found",
-        });
-      }
+      return res.status(404).json({
+        message: "Not found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).json(`An error occurred: ${err}`);
+  }
+});
+
+router.put("/:contactId/favorite", async (req, res, next) => {
+  const body = req.body;
+  const { contactId } = req.params;
+  const resultValidate = schemaValidationFavorities.validate(body);
+
+  if (resultValidate.error) {
+    return res.status(400).json({
+      message: resultValidate.error.message,
+    });
+  }
+  try {
+    const updatedContact = await updateStatusContact(contactId, body);
+    if (updatedContact) {
+      return res.status(200).json({
+        updatedContact: updatedContact,
+      });
+    } else {
+      return res.status(404).json({
+        message: "Not found",
+      });
     }
   } catch (err) {
     return res.status(500).json(`An error occurred: ${err}`);

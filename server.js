@@ -4,24 +4,8 @@ import "dotenv/config";
 
 const uriDb = process.env.uriDb;
 
-/* const connection = mongoose.connect(uriDb, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}); */
-
-/* connection
-  .then(() => {
-    app.listen(PORT, function () {
-      console.log("Database connection successful");
-      console.log(`Server running. Use our API on port: ${PORT}`);
-    });
-  })
-  .catch((err) =>
-    console.log(`Server not running. Error message: ${err.message}`)
-  ); */
-
 try {
-  const connection = await mongoose.connect(uriDb, { dbName: "db-contacts" });
+  await mongoose.connect(uriDb, { dbName: "db-contacts" });
   console.log("Database connection successful");
 
   app.listen(3000, () => {
