@@ -17,7 +17,7 @@ export const newContact = (body) => {
   return Contact.create({ name, email, phone, favorite });
 };
 
-export const changeContact = async (id, toUpdate) => {
+export const changeContact = (id, toUpdate) => {
   return Contact.findOneAndUpdate(
     { _id: id },
     { $set: toUpdate },
