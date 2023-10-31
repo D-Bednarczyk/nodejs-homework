@@ -7,7 +7,7 @@ const schemaValidation = Joi.object({
   phone: Joi.string().required(),
 });
 
-const addContact = async (req, res, next) => {
+export const addContact = async (req, res, next) => {
   try {
     const body = req.body;
     const resultValidate = schemaValidation.validate(body);
@@ -26,4 +26,3 @@ const addContact = async (req, res, next) => {
     return res.status(500).json(`An error occurred: ${err}`);
   }
 };
-export default addContact;

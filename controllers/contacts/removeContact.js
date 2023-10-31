@@ -15,4 +15,3 @@ export const removeContact = async (req, res, next) => {
     return res.status(500).json(`An error occurred: ${err}`);
   }
 };
-export default removeContact;

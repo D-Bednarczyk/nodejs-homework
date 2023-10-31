@@ -1,6 +1,8 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
+import { noFound } from "./controllers/errors/noFound.js";
+import { internalErr } from "./controllers/errors/internalErr.js";
 
 import { router as contactsRouter } from "./api/contacts.js";
 
@@ -14,12 +16,8 @@ app.use(express.json());
 
 app.use("/api/contacts", contactsRouter);
 
-app.use((req, res) => {
-  res.status(404).json({ message: "Not found" });
-});
+app.use(noFound);
 
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
-});
+app.use(internalErr);
 
 export default app;

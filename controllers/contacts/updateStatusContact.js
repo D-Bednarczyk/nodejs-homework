@@ -5,7 +5,7 @@ const schemaValidationFavorities = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-const updateStatusContact = async (req, res, next) => {
+export const updateStatusContact = async (req, res, next) => {
   const body = req.body;
   const { contactId } = req.params;
   const resultValidate = schemaValidationFavorities.validate(body);
@@ -29,5 +29,3 @@ const updateStatusContact = async (req, res, next) => {
     return res.status(500).json(`An error occurred: ${err}`);
   }
 };
-
-export default updateStatusContact;

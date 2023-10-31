@@ -1,6 +1,6 @@
 import { contactById } from "../helpers.js";
 
-const getContactById = async (req, res, next) => {
+export const getContactById = async (req, res, next) => {
   try {
     const contactfound = await contactById(req.params.contactId);
     if (contactfound != null) {
@@ -15,5 +15,3 @@ const getContactById = async (req, res, next) => {
     res.status(500).json(`An error occurred: ${err}`);
   }
 };
-
-export default getContactById;
