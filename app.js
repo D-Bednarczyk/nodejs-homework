@@ -3,8 +3,9 @@ import logger from "morgan";
 import cors from "cors";
 import { noFound } from "./controllers/errors/noFound.js";
 import { internalErr } from "./controllers/errors/internalErr.js";
-
+import { userRouter } from "./api/users.js";
 import { router as contactsRouter } from "./api/contacts.js";
+import setJWTStrategy from "./service/jwtStrategy.js";
 
 const app = express();
 
@@ -14,7 +15,9 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+setJWTStrategy();
 app.use("/api/contacts", contactsRouter);
+app.use("/api/users", userRouter);
 
 app.use(noFound);
 
