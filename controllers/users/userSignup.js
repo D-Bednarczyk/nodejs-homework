@@ -2,7 +2,6 @@ import User from "#service/schemas/users.js";
 import Joi from "joi";
 
 const schemaValidation = Joi.object({
-  username: Joi.string(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
@@ -16,7 +15,7 @@ export const userSignup = async (req, res, next) => {
     });
   }
 
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({ email }, { _id: 1 }).lean();
 
@@ -24,7 +23,7 @@ export const userSignup = async (req, res, next) => {
     return res.status(409).json({ message: "Email in use" });
   }
   try {
-    const newUser = new User({ username, email });
+    const newUser = new User({ email });
     await newUser.setPassword(password);
     await newUser.save();
     res.status(201).json({

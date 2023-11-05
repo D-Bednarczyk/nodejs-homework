@@ -7,7 +7,6 @@ import "dotenv/config";
 const SECRET = process.env.SECRET;
 
 const schemaValidation = Joi.object({
-  username: Joi.string(),
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
