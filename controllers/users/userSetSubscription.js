@@ -20,7 +20,7 @@ export const userSetsSubscription = async (req, res, next) => {
   const id = user.id;
 
   if (!user) {
-    return res.status(409).json({ message: "no user with this email", id: id });
+    return res.status(409).json({ message: "no user with this email" });
   }
 
   try {
