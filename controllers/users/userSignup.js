@@ -1,20 +1,6 @@
 import User from "#service/schemas/users.js";
-import Joi from "joi";
-
-const schemaValidation = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-});
 
 export const userSignup = async (req, res, next) => {
-  const resultValidate = schemaValidation.validate(req.body);
-
-  if (resultValidate.error) {
-    return res.status(400).json({
-      message: resultValidate.error.message,
-    });
-  }
-
   const { email, password } = req.body;
 
   const user = await User.findOne({ email }, { _id: 1 }).lean();

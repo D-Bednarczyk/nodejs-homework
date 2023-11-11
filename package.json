@@ -33,6 +33,9 @@
   },
   "imports": {
     "#controllers/*": "./controllers/*",
-    "#service/*": "./service/*"
+    "#service/*": "./service/*",
+    "#repositories/*": "./repositories/*",
+    "#validators/*": "./validators/*",
+    "#middlewares/*": "./middlewares/*"
   }
 }

@@ -1,4 +1,4 @@
-import { contactById } from "../helpers.js";
+import { contactById } from "#repositories/contacts.js";
 
 export const getContactById = async (req, res, next) => {
   try {
