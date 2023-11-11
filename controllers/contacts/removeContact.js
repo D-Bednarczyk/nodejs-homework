@@ -1,4 +1,4 @@
-import { removeContactById } from "../helpers.js";
+import { removeContactById } from "#repositories/contacts.js";
 
 export const removeContact = async (req, res, next) => {
   try {
