@@ -6,7 +6,7 @@ import {
 } from "#validators/validators.js";
 import { bodyValidate } from "#middlewares/validate.js";
 import { auth } from "#middlewares/AuthorizationCheck.js";
-
+import { upload } from "#middlewares/storageMulter.js";
 import * as userControllers from "#controllers/users/index.js";
 
 userRouter.post(
@@ -27,4 +27,10 @@ userRouter.patch(
   bodyValidate(schemaValidationSub),
   auth,
   userControllers.userSetsSubscription
+);
+userRouter.patch(
+  "/avatars",
+  auth,
+  upload.single("avatar"),
+  userControllers.userAvatarUpdate
 );
