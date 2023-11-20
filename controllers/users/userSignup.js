@@ -1,9 +1,11 @@
 import User from "#service/schemas/users.js";
 import gravatar from "gravatar";
+import sendEmail from "../../service/mailer.js";
+import { nanoid } from "nanoid";
 
 export const userSignup = async (req, res, next) => {
   const { email, password } = req.body;
-
+  const verificationToken = nanoid();
   const user = await User.findOne({ email }, { _id: 1 }).lean();
 
   if (user) {
@@ -16,7 +18,9 @@ export const userSignup = async (req, res, next) => {
       s: "300",
       d: "robohash",
     });
-    const newUser = new User({ email, avatarURL });
+
+    await sendEmail({ to: email, verificationToken });
+    const newUser = new User({ email, avatarURL, verificationToken });
     await newUser.setPassword(password);
     await newUser.save();
     res.status(201).json({

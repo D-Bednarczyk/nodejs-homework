@@ -13,6 +13,10 @@ export const userLogin = async (req, res, next) => {
     return res.status(401).json({ message: "Email or password is wrong" });
   }
 
+  if (!user.verify) {
+    return res.status(401).json({ message: "Email not verified" });
+  }
+
   const isPasswordCorrect = await user.validatePassword(password);
   if (isPasswordCorrect) {
     const payload = {

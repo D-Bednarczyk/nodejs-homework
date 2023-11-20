@@ -19,3 +19,7 @@ export const schemaValidationSub = Joi.object({
   email: Joi.string().email().required(),
   subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
+
+export const schemaValidationToken = Joi.object({
+  email: Joi.string().email().required(),
+});

@@ -3,6 +3,7 @@ export const userRouter = express.Router();
 import {
   schemaValidationUser,
   schemaValidationSub,
+  schemaValidationToken,
 } from "#validators/validators.js";
 import { bodyValidate } from "#middlewares/validate.js";
 import { auth } from "#middlewares/AuthorizationCheck.js";
@@ -33,4 +34,11 @@ userRouter.patch(
   auth,
   upload.single("avatar"),
   userControllers.userAvatarUpdate
+);
+
+userRouter.get("/verify/:verificationToken", userControllers.userVerifyToken);
+userRouter.post(
+  "/verify",
+  bodyValidate(schemaValidationToken),
+  userControllers.userReVerifyToken
 );
